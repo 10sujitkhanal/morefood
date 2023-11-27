@@ -14,4 +14,3 @@ jobs:
         server: ftp.foodnfire.com
         username: dev@foodnfire.com
         password: ${{ secrets.ftp_password }}
-        server-dir: /deploy/
