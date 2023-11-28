@@ -31,7 +31,7 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractUser):
     username = models.CharField(max_length=200,unique=True)
     email = models.CharField(max_length=200, unique=True)
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True)
     is_restaurant_user = models.BooleanField(default=False)
    
 

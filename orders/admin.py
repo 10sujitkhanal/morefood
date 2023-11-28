@@ -36,13 +36,22 @@ class OrderItemInline(admin.TabularInline):
     model = OrderItem
 
 class OrderAdmin(admin.ModelAdmin):
+    def get_queryset(self, request):
+        print(request.user.restaurant)
+        qs = super().get_queryset(request)
+        if request.user.is_restaurant_user:
+            return qs.filter(restaurant=request.user.restaurant)
+        elif request.user.is_superuser:
+            return qs.all()
+
     model = Order
     inlines = [OrderItemInline]
     list_editable = ('order_status',)
     list_display_links = None
     list_display = ('id', 'full_name', 'email', 'phone_no', 'restaurant', 'order_status','_invoice',)
     # filter_horizontal = ('food_items',)
-    list_filter = (OrderFilter,'full_name','email', 'phone_no')
+    list_filter = (OrderFilter,)
+    search_fields = ('full_name','email', 'phone_no')
 
     def get_urls(self):
         urls = super().get_urls()

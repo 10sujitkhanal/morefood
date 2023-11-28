@@ -9,7 +9,7 @@ class Menu(models.Model):
         editable = False) 
     name = models.CharField(max_length=255)
     icon = models.ImageField(upload_to='menus')
-    restaurant = models.ManyToManyField(Restaurant)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return self.name

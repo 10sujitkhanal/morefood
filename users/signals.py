@@ -6,10 +6,18 @@ from django.contrib.auth.models import Permission
 @receiver(post_save, sender=get_user_model())
 def assign_permissions(sender, instance, created, **kwargs):
     per = Permission.objects.all()
-    for p in per:
-        print(p.codename)
     if created and instance.is_restaurant_user:
-        # permission_name = 'Can view menu'
-        # permission = Permission.objects.get(codename=permission_name)
-        # instance.user_permissions.add(permission)
-        pass
+        permissions_list = [
+            'view_order', 
+            'add_fooditem',
+            'change_fooditem',
+            'delete_fooditem',
+            'view_fooditem',
+            'add_menu',
+            'change_menu',
+            'delete_menu',
+            'view_menu',
+        ]
+        permissions = Permission.objects.filter(codename__in=permissions_list)
+        instance.user_permissions.add(*permissions)
+        instance.is_staff = True
